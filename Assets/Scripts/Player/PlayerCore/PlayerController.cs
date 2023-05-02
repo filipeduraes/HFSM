@@ -15,29 +15,5 @@ namespace HFSM.Player.PlayerCore
         {
             SetState<IdleState>();
         }
-
-        [ContextMenu(nameof(SetJump))]
-        private void SetJump()
-        {
-            SetState<JumpState>();
-        }
-        
-        [ContextMenu(nameof(SetFalling))]
-        private void SetFalling()
-        {
-            SetState<FallingState>();
-        }
-        
-        [ContextMenu(nameof(SetWalk))]
-        private void SetWalk()
-        {
-            SetState<WalkState>();
-        }
-        
-        [ContextMenu(nameof(SetIdle))]
-        private void SetIdle()
-        {
-            SetState<IdleState>();
-        }
     }
 }
