@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace HFSM.StateMachine
 {
     public abstract class State<T> where T : StateMachine
     {
-        public abstract State<T> ParentState { get; }
+        public virtual Type ParentState => null;
         
         protected T stateMachine;
 

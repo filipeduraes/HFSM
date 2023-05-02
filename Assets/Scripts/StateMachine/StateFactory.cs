@@ -19,5 +19,27 @@ namespace HFSM.StateMachine
         {
             return states[typeof(TState)];
         }
+
+        private State<T> GetState(Type stateType)
+        {
+            return states[stateType];
+        }
+
+        public List<State<T>> GetStatePath(State<T> state)
+        {
+            List<State<T>> result = new();
+            FindStatePath(state.GetType(), result);
+            result.Reverse();
+            return result;
+        }
+
+        private void FindStatePath(Type stateType, ICollection<State<T>> result)
+        {
+            State<T> state = GetState(stateType);
+            result.Add(state);
+            
+            if(stateType != null)
+                FindStatePath(state.ParentState, result);
+        }
     }
 }
