@@ -1,23 +1,19 @@
-﻿using HFSM.Player.PlayerCore;
+﻿using System;
+using HFSM.Player.PlayerCore;
 using HFSM.StateMachine;
-using UnityEngine;
 
 namespace HFSM.Player.PlayerStates
 {
     public class AirState : State<PlayerController>
     {
-        public AirState(PlayerController stateMachine) : base(stateMachine)
-        {
-        }
-
-        public override void EnterState()
-        {
-            Debug.Log("Entering Air State");
-        }
+        public override Type ParentState => null;
         
-        public override void ExitState()
+        public AirState(PlayerController stateMachine) : base(stateMachine) { }
+
+        public override void FixedUpdate()
         {
-            Debug.Log("Exiting Air State");
+            float walkDirection = stateMachine.Input.AxisInput.x;
+            stateMachine.Physics.Walk(walkDirection);
         }
     }
 }

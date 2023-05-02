@@ -6,8 +6,6 @@ namespace HFSM.StateMachine
     public abstract class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
     {
         private StateFactory<T> stateFactory;
-        private State<T> currentState;
-
         private List<State<T>> currentStatePath = new();
 
         private void Awake()
@@ -18,16 +16,16 @@ namespace HFSM.StateMachine
 
         private void FixedUpdate()
         {
-            currentState?.FixedUpdate();
+            foreach (State<T> state in currentStatePath)
+                state?.FixedUpdate();
         }
 
         protected abstract void SetInitialState();
 
         public void SetState<TState>() where TState : State<T>
         {
-            currentState = stateFactory.GetState<TState>();
-            
-            List<State<T>> newStatePath = stateFactory.GetStatePath(currentState);
+            State<T> newState = stateFactory.GetState<TState>();
+            List<State<T>> newStatePath = stateFactory.GetStatePath(newState);
 
             ExitOldStates(newStatePath);
             EnterNewStates(newStatePath);

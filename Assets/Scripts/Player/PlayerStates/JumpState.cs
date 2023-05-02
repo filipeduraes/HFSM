@@ -1,7 +1,6 @@
 ﻿using System;
 using HFSM.Player.PlayerCore;
 using HFSM.StateMachine;
-using UnityEngine;
 
 namespace HFSM.Player.PlayerStates
 {
@@ -9,18 +8,17 @@ namespace HFSM.Player.PlayerStates
     {
         public override Type ParentState => typeof(AirState);
 
-        public JumpState(PlayerController stateMachine) : base(stateMachine)
-        {
-        }
+        public JumpState(PlayerController stateMachine) : base(stateMachine) { }
 
         public override void EnterState()
         {
-            Debug.Log("Entering Jump State");
+            stateMachine.Physics.Jump();
         }
-        
-        public override void ExitState()
+
+        public override void FixedUpdate()
         {
-            Debug.Log("Exiting Jump State");
+            if (!stateMachine.Input.IsPressingJump || stateMachine.Physics.IsFalling())
+                SetState<FallingState>();
         }
     }
 }
