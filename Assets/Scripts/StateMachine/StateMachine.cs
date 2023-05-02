@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace HFSM.StateMachine
 {
-    public abstract class StateMachine : MonoBehaviour
+    public abstract class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
     {
-        private StateFactory<StateMachine> stateFactory;
-        private State<StateMachine> currentState;
+        private StateFactory<T> stateFactory;
+        private State<T> currentState;
 
-        private List<State<StateMachine>> currentStatePath = new();
+        private List<State<T>> currentStatePath = new();
 
         private void Awake()
         {
-            stateFactory = new StateFactory<StateMachine>(this);
+            stateFactory = new StateFactory<T>(this as T);
             SetInitialState();
         }
 
@@ -23,11 +23,11 @@ namespace HFSM.StateMachine
 
         protected abstract void SetInitialState();
 
-        public void SetState<T>() where T : State<StateMachine>
+        public void SetState<TState>() where TState : State<T>
         {
-            currentState = stateFactory.GetState<T>();
+            currentState = stateFactory.GetState<TState>();
             
-            List<State<StateMachine>> newStatePath = stateFactory.GetStatePath(currentState);
+            List<State<T>> newStatePath = stateFactory.GetStatePath(currentState);
 
             ExitOldStates(newStatePath);
             EnterNewStates(newStatePath);
@@ -35,18 +35,20 @@ namespace HFSM.StateMachine
             currentStatePath = newStatePath;
         }
 
-        private void EnterNewStates(List<State<StateMachine>> newStatePath)
+        private void EnterNewStates(List<State<T>> newStatePath)
         {
-            foreach (State<StateMachine> newStateInPath in newStatePath)
+            for (int index = newStatePath.Count - 1; index >= 0; index--)
             {
+                State<T> newStateInPath = newStatePath[index];
+                
                 if (!currentStatePath.Contains(newStateInPath))
                     newStateInPath?.EnterState();
             }
         }
 
-        private static void ExitOldStates(List<State<StateMachine>> newStatePath)
+        private void ExitOldStates(List<State<T>> newStatePath)
         {
-            foreach (State<StateMachine> oldStateInPath in newStatePath)
+            foreach (State<T> oldStateInPath in currentStatePath)
             {
                 if (!newStatePath.Contains(oldStateInPath))
                     oldStateInPath?.ExitState();

@@ -1,0 +1,16 @@
+{
+    "name": "HFSM.Player",
+    "rootNamespace": "",
+    "references": [
+        "GUID:585fb69e0f8748e41a6c2bc3e119db32"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
