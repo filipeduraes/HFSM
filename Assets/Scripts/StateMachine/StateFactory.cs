@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HFSM.StateMachine
 {
-    public class StateFactory<T> where T : StateMachine
+    public class StateFactory<T> where T : StateMachine<T>
     {
         private readonly Dictionary<Type, State<T>> states = new();
 

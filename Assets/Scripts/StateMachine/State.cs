@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HFSM.StateMachine
 {
-    public abstract class State<T> where T : StateMachine
+    public abstract class State<T> where T : StateMachine<T>
     {
         public virtual Type ParentState => null;
         
