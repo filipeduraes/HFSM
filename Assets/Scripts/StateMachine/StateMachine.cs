@@ -22,6 +22,8 @@ namespace HFSM.StateMachine
 
         protected abstract void SetInitialState();
 
+        #region State Update
+
         public void SetState<TState>() where TState : State<T>
         {
             State<T> newState = stateFactory.GetState<TState>();
@@ -52,5 +54,7 @@ namespace HFSM.StateMachine
                     oldStateInPath?.ExitState();
             }
         }
+        
+        #endregion
     }
 }

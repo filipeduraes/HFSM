@@ -10,10 +10,12 @@ namespace HFSM.StateMachine
         
         protected T stateMachine;
 
-        public State(T stateMachine)
+        public State(T fsm)
         {
-            this.stateMachine = stateMachine;
+            stateMachine = fsm;
         }
+        
+        #region State Updates
         
         public virtual void EnterState() { }
         
@@ -21,6 +23,10 @@ namespace HFSM.StateMachine
         
         public virtual void ExitState() { }
         
+        #endregion
+
+        #region Help Methods
+
         protected void SetState<TState>() where TState : State<T>
         {
             stateMachine.SetState<TState>();
@@ -35,5 +41,7 @@ namespace HFSM.StateMachine
         {
             stateMachine.StopCoroutine(coroutine);
         }
+        
+        #endregion
     }
 }

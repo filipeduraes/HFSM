@@ -27,6 +27,8 @@ namespace HFSM.StateMachine
             return states[stateType];
         }
 
+        #region State Path
+
         private State<T> GetState(Type stateType)
         {
             return states[stateType];
@@ -47,5 +49,7 @@ namespace HFSM.StateMachine
             if(state.ParentState != null)
                 FindStatePath(state.ParentState, result);
         }
+        
+        #endregion
     }
 }
