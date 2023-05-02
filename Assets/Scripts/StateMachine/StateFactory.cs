@@ -9,15 +9,22 @@ namespace HFSM.StateMachine
 
         public StateFactory(T stateMachine)
         {
-            Type[] stateTypes = typeof(State<T>).Assembly.GetTypes();
+            Type[] stateTypes = typeof(T).Assembly.GetTypes();
 
             foreach (Type stateType in stateTypes)
-                Activator.CreateInstance(stateType, stateMachine as object);
+            {
+                if (stateType.IsSubclassOf(typeof(State<T>)) && !stateType.IsAbstract)
+                {
+                    State<T> state = Activator.CreateInstance(stateType, stateMachine as object) as State<T>;
+                    states[stateType] = state;
+                }
+            }
         }
 
         public State<T> GetState<TState>() where TState : State<T>
         {
-            return states[typeof(TState)];
+            Type stateType = typeof(TState);
+            return states[stateType];
         }
 
         private State<T> GetState(Type stateType)
@@ -29,7 +36,6 @@ namespace HFSM.StateMachine
         {
             List<State<T>> result = new();
             FindStatePath(state.GetType(), result);
-            result.Reverse();
             return result;
         }
 
@@ -38,7 +44,7 @@ namespace HFSM.StateMachine
             State<T> state = GetState(stateType);
             result.Add(state);
             
-            if(stateType != null)
+            if(state.ParentState != null)
                 FindStatePath(state.ParentState, result);
         }
     }

@@ -37,16 +37,18 @@ namespace HFSM.StateMachine
 
         private void EnterNewStates(List<State<T>> newStatePath)
         {
-            foreach (State<T> newStateInPath in newStatePath)
+            for (int index = newStatePath.Count - 1; index >= 0; index--)
             {
+                State<T> newStateInPath = newStatePath[index];
+                
                 if (!currentStatePath.Contains(newStateInPath))
                     newStateInPath?.EnterState();
             }
         }
 
-        private static void ExitOldStates(List<State<T>> newStatePath)
+        private void ExitOldStates(List<State<T>> newStatePath)
         {
-            foreach (State<T> oldStateInPath in newStatePath)
+            foreach (State<T> oldStateInPath in currentStatePath)
             {
                 if (!newStatePath.Contains(oldStateInPath))
                     oldStateInPath?.ExitState();
