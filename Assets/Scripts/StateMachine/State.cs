@@ -6,7 +6,7 @@ namespace HFSM.StateMachine
 {
     public abstract class State<T> where T : StateMachine<T>
     {
-        public virtual Type ParentState => null;
+        public abstract Type ParentState { get; }
         
         protected T stateMachine;
 
@@ -20,6 +20,11 @@ namespace HFSM.StateMachine
         public virtual void FixedUpdate() { }
         
         public virtual void ExitState() { }
+        
+        protected void SetState<TState>() where TState : State<T>
+        {
+            stateMachine.SetState<TState>();
+        }
 
         protected Coroutine StartCoroutine(IEnumerator coroutine)
         {

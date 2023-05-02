@@ -1,23 +1,23 @@
-﻿using HFSM.Player.PlayerCore;
+﻿using System;
+using HFSM.Player.PlayerCore;
 using HFSM.StateMachine;
-using UnityEngine;
 
 namespace HFSM.Player.PlayerStates
 {
     public class WalkState : State<PlayerController>
     {
-        public WalkState(PlayerController stateMachine) : base(stateMachine)
+        public override Type ParentState => typeof(GroundState);
+
+        public WalkState(PlayerController stateMachine) : base(stateMachine) { }
+
+        public override void FixedUpdate()
         {
-        }
-        
-        public override void EnterState()
-        {
-            Debug.Log("Entering Walk State");
-        }
-        
-        public override void ExitState()
-        {
-            Debug.Log("Exiting Walk State");
+            float horizontalInput = stateMachine.Input.AxisInput.x;
+
+            if (horizontalInput == 0f)
+                SetState<IdleState>();
+            else
+                stateMachine.Physics.Walk(horizontalInput);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using HFSM.Player.PlayerCore;
 using HFSM.StateMachine;
-using UnityEngine;
 
 namespace HFSM.Player.PlayerStates
 {
@@ -9,18 +8,18 @@ namespace HFSM.Player.PlayerStates
     {
         public override Type ParentState => typeof(GroundState);
 
-        public IdleState(PlayerController stateMachine) : base(stateMachine)
-        {
-        }
+        public IdleState(PlayerController stateMachine) : base(stateMachine) { }
 
         public override void EnterState()
         {
-            Debug.Log("Entering Idle State");
+            if (stateMachine.Input.AxisInput.x == 0f)
+                stateMachine.Physics.Stop();
         }
-        
-        public override void ExitState()
+
+        public override void FixedUpdate()
         {
-            Debug.Log("Exiting Idle State");
+            if (stateMachine.Input.AxisInput.x != 0f)
+                SetState<WalkState>();
         }
     }
 }
