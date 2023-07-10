@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Scripts/FSMSystem/Editor/FSMEditor.uss?fileID=7433441132597879392&amp;guid=c77db4d87e8f72c44a7f676fad9f5dde&amp;type=3#FSMEditor" />
+    <uie:Toolbar>
+        <uie:ToolbarMenu display-tooltip-when-elided="true" text="Assets" />
+    </uie:Toolbar>
+    <HFSM.Editor.SplitView fixed-pane-initial-dimension="150">
+        <ui:VisualElement name="LeftPanel">
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" name="InspectorLabel" style="background-color: rgb(40, 40, 40);" />
+            <HFSM.Editor.InspectorView />
+        </ui:VisualElement>
+        <ui:VisualElement name="RightPanel">
+            <ui:Label text="Graph View" display-tooltip-when-elided="true" name="GraphLabel" style="background-color: rgb(40, 40, 40);" />
+            <HFSM.Editor.FSMGraphView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </HFSM.Editor.SplitView>
+</ui:UXML>
